@@ -1,0 +1,19 @@
+{
+  "name": "be-cloud-development-course",
+  "version": "1.0.0",
+  "description": "BE for cloud-development course",
+  "main": "handler.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Oleksandr-Kotenko/be-cloud-development-course.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Oleksandr-Kotenko/be-cloud-development-course/issues"
+  },
+  "homepage": "https://github.com/Oleksandr-Kotenko/be-cloud-development-course#readme"
+}

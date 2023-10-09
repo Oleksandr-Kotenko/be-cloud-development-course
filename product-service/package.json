@@ -1,0 +1,31 @@
+{
+  "name": "product-service",
+  "version": "1.0.0",
+  "description": "",
+  "main": "handler.js",
+  "scripts": {
+    "package-build": "sls package",
+    "deploy:dev": "sls deploy --stage dev",
+    "deploy:prod": "sls deploy --stage prod",
+    "remove:dev-stack": "sls remove --stage dev --region us-east-1",
+    "remove:prod-stack": "sls remove --stage prod --region us-east-1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.124",
+    "@types/node": "^20.8.4",
+    "@types/serverless": "^3.12.16",
+    "fork-ts-checker-webpack-plugin": "^9.0.0",
+    "serverless": "^3.35.2",
+    "serverless-webpack": "^5.13.0",
+    "ts-loader": "^9.5.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2",
+    "webpack": "^5.88.2",
+    "webpack-node-externals": "^3.0.0"
+  },
+  "dependencies": {
+    "winston": "^3.11.0"
+  }
+}

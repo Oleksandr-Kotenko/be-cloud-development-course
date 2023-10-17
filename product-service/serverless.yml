@@ -4,10 +4,16 @@ frameworkVersion: '3'
 provider:
   name: aws
   runtime: nodejs16.x
-  stage: 'dev'
+  stage: ${opt:stage, 'dev'}
   region: eu-west-1
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:*
+      Resource:
+        - "arn:aws:dynamodb:${self:provider.region}:*:table/*"
   environment:
-    ENV_STAGE: 'dev'
+    ENV_STAGE: ${opt:stage, 'dev'}
 
 plugins:
   - serverless-webpack
@@ -16,6 +22,7 @@ custom:
   webpack:
     webpackConfig: 'webpack.config.js'
     includeModules: true
+    dotenvVars: ${file(configs.js)}
 
 functions:
   getProductById:
@@ -36,3 +43,25 @@ functions:
           path: products
           method: get
           cors: true
+  createProduct:
+    handler: handler.createProduct
+    events:
+      - http:
+          path: products
+          method: post
+          cors: true
+          request:
+            schemas:
+              application/json: ${file(src/schemas/createProductSchema.json)}
+
+resources:
+  Resources:
+    GatewayResponseDefault4XX:
+      Type: 'AWS::ApiGateway::GatewayResponse'
+      Properties:
+        ResponseParameters:
+          gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
+          gatewayresponse.header.Access-Control-Allow-Headers: "'*'"
+        ResponseType: DEFAULT_4XX
+        RestApiId:
+          Ref: 'ApiGatewayRestApi'

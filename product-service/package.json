@@ -7,8 +7,10 @@
     "package-build": "sls package",
     "deploy:dev": "sls deploy --stage dev",
     "deploy:prod": "sls deploy --stage prod",
-    "remove:dev-stack": "sls remove --stage dev --region us-east-1",
-    "remove:prod-stack": "sls remove --stage prod --region us-east-1"
+    "remove:dev-stack": "sls remove --stage dev --region eu-west-1",
+    "remove:prod-stack": "sls remove --stage prod --region eu-west-1",
+    "db:seed": "node ./db/seeds.js",
+    "format:fix": "prettier . --write"
   },
   "author": "",
   "license": "ISC",
@@ -17,6 +19,7 @@
     "@types/node": "^20.8.4",
     "@types/serverless": "^3.12.16",
     "fork-ts-checker-webpack-plugin": "^9.0.0",
+    "prettier": "^3.0.3",
     "serverless": "^3.35.2",
     "serverless-webpack": "^5.13.0",
     "ts-loader": "^9.5.0",
@@ -26,6 +29,7 @@
     "webpack-node-externals": "^3.0.0"
   },
   "dependencies": {
+    "uuid": "^8.3.2",
     "winston": "^3.11.0"
   }
 }

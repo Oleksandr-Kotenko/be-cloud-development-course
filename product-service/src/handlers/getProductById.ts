@@ -1,24 +1,32 @@
-import { getProductById as getProductByIdService } from "../services/products";
-import { winstonLogger } from "../utils/winstonLogger";
-import { errorResponse, successResponse, ResponseInterface } from "../utils/apiResponseBuilder";
+import { ProductServiceInterface } from '../services/products';
+import { winstonLogger } from '../utils/winstonLogger';
+import { errorResponse, successResponse } from '../utils/apiResponseBuilder';
 
-export const getProductById: (event, _context) => Promise<ResponseInterface> = async (event, _context) => {
-    try {
-        winstonLogger.logRequest(`Incoming event: ${ JSON.stringify( event ) }`);
+export const getProductByIdHandler = (productService: ProductServiceInterface) => async (event, _context) => {
+  try {
+    winstonLogger.logRequest(`Incoming event: ${JSON.stringify(event)}`);
 
-        const { productId = '' } = event.pathParameters;
+    const { productId = '' } = event.pathParameters;
 
-        const product = getProductByIdService( productId );
-
-        winstonLogger.logRequest(`"Received product with id: ${ productId }: ${ JSON.stringify( product ) }`);
-
-        if( product )
-            return successResponse( product );
-
-
-        return successResponse( { message: "Product not found!!!" }, 404 );
+    if (!productId) {
+      winstonLogger.logError('Product ID is missing or invalid.');
+      return successResponse({ message: 'Product ID is missing or invalid.' }, 404);
     }
-    catch ( err ) {
-        return errorResponse( err );
+
+    const product = await productService.getProductById(productId);
+    winstonLogger.logRequest(`"Received product with id: ${productId}: ${JSON.stringify(product)}`);
+
+    if (!product) {
+      return successResponse({ message: 'Product not found!!!' }, 404);
     }
-}
+
+    const stock = await productService.getStockByProductId(productId);
+    return successResponse({
+      count: stock.count || 0,
+      ...product,
+    });
+  } catch (err) {
+    winstonLogger.logError(`Error: ${err.stack}`);
+    return errorResponse(err);
+  }
+};

@@ -1,7 +1,5 @@
-import { getProductById } from './handlers/getProductById';
-import { getAllProducts } from './handlers/getAllProducts';
+import { getProductByIdHandler } from './handlers/getProductById';
+import { getAllProductsHandler } from './handlers/getAllProducts';
+import { createProductHandler } from './handlers/createProduct';
 
-export {
-    getProductById,
-    getAllProducts
-};
+export { getProductByIdHandler, getAllProductsHandler, createProductHandler };

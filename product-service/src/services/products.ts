@@ -1,14 +1,21 @@
-import productsMock from "./products-mock.json";
-
-export interface ProductInterface {
-    id: string,
-    title: string,
-    description: string,
-    price: number,
-    logo: string,
-    count: number
+export interface ProductInterface extends StockInterface {
+  id: string;
+  title: string;
+  description: string;
+  price: number;
+  logo: string;
 }
 
-export const getProductById = ( id: string ): ProductInterface => productsMock.find( product => product.id === id );
+export interface StockInterface {
+  product_id: string;
+  count: number;
+}
 
-export const getAllProducts = (): ProductInterface[] => productsMock;
+export interface ProductServiceInterface {
+  getProductById: (productId: string) => Promise<ProductInterface>;
+  getStockByProductId: (id: string) => Promise<StockInterface>;
+  getAllProducts: () => Promise<ProductInterface[]>;
+  getAllStocks: () => Promise<StockInterface[]>;
+  create: (product: Omit<ProductInterface, 'count'>) => Promise<ProductInterface>;
+  createStock: (product: StockInterface) => Promise<StockInterface>;
+}

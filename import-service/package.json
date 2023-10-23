@@ -1,0 +1,42 @@
+{
+  "name": "import-service",
+  "version": "1.0.0",
+  "description": "inport service created for storing docs in s3",
+  "main": "handlers.ts",
+  "scripts": {
+    "package-build": "sls package",
+    "deploy:dev": "sls deploy --stage dev",
+    "deploy:prod": "sls deploy --stage prod",
+    "remove:dev-stack": "sls remove --stage dev --region us-east-1",
+    "remove:prod-stack": "sls remove --stage prod --region us-east-1",
+    "format:fix": "prettier . --write",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.124",
+    "@types/jest": "^29.5.6",
+    "@types/node": "^20.8.4",
+    "@types/serverless": "^3.12.16",
+    "aws-sdk-mock": "^5.8.0",
+    "dotenv": "^8.2.0",
+    "fork-ts-checker-webpack-plugin": "^9.0.0",
+    "jest": "^29.7.0",
+    "jest-config": "^29.7.0",
+    "prettier": "^3.0.3",
+    "serverless": "^3.35.2",
+    "serverless-webpack": "^5.13.0",
+    "ts-jest": "^29.1.1",
+    "ts-loader": "^9.5.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2",
+    "webpack": "^5.88.2",
+    "webpack-node-externals": "^3.0.0"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.901.0",
+    "csv-parser": "^3.0.0",
+    "winston": "^3.3.3"
+  }
+}

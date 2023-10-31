@@ -11,9 +11,21 @@ provider:
       Action:
         - dynamodb:*
       Resource:
-        - "arn:aws:dynamodb:${self:provider.region}:*:table/*"
+        - 'arn:aws:dynamodb:${self:provider.region}:*:table/*'
+    - Effect: Allow
+      Action:
+        - sqs:*
+      Resource:
+        - Fn::GetAtt: [catalogItemsQueue, Arn]
+    - Effect: Allow
+      Action:
+        - sns:*
+      Resource:
+        Ref: createProductTopic
+
   environment:
     ENV_STAGE: ${opt:stage, 'dev'}
+    SNS_ARN: !Ref createProductTopic
 
 plugins:
   - serverless-webpack
@@ -53,9 +65,49 @@ functions:
           request:
             schemas:
               application/json: ${file(src/schemas/createProductSchema.json)}
+  catalogBatchProcess:
+    handler: handler.catalogBatchProcess
+    events:
+      - sqs:
+          batchSize: 5
+          arn:
+            Fn::GetAtt:
+              - catalogItemsQueue
+              - Arn
 
 resources:
   Resources:
+    catalogItemsQueue:
+      Type: AWS::SQS::Queue
+      Properties:
+        QueueName: catalog-items-queue
+        ReceiveMessageWaitTimeSeconds: 20
+
+    createProductTopic:
+      Type: AWS::SNS::Topic
+      Properties:
+        TopicName: create-product-topic
+
+    createProductTopicSubscription:
+      Type: AWS::SNS::Subscription
+      Properties:
+        Endpoint: nitrocat2007@gmail.com
+        Protocol: email
+        #        FilterPolicy: {
+        #          "price": [{"numeric": [">=",200]}],
+        #          "title": [{"anything-but": ["Filter Policy Title"]}],
+        #        }
+        FilterPolicy:
+          price:
+            - numeric:
+                - '>='
+                - 200
+          title:
+            - anything-but:
+                - 'Filter Policy Title'
+        TopicArn:
+          Ref: createProductTopic
+
     GatewayResponseDefault4XX:
       Type: 'AWS::ApiGateway::GatewayResponse'
       Properties:
@@ -65,3 +117,10 @@ resources:
         ResponseType: DEFAULT_4XX
         RestApiId:
           Ref: 'ApiGatewayRestApi'
+
+  Outputs:
+    sqsUrl:
+      Value: !Ref catalogItemsQueue
+    sqsArn:
+      Value:
+        Fn::GetAtt: [catalogItemsQueue, Arn]

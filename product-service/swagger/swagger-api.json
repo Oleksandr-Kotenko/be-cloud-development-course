@@ -16,20 +16,14 @@
       "description": "REST-API documentation"
     }
   ],
-  "schemes": [
-    "https"
-  ],
+  "schemes": ["https"],
   "paths": {
     "/products": {
       "get": {
-        "tags": [
-          "product-service"
-        ],
+        "tags": ["product-service"],
         "summary": "searches all products",
         "description": "You can search for all products in the shop",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [],
         "responses": {
           "200": {
@@ -44,9 +38,7 @@
         }
       },
       "post": {
-        "tags": [
-          "product-service"
-        ],
+        "tags": ["product-service"],
         "summary": "Create new product",
         "description": "You can create new product",
         "parameters": [
@@ -71,14 +63,10 @@
     },
     "/products/{productId}": {
       "get": {
-        "tags": [
-          "product-service"
-        ],
+        "tags": ["product-service"],
         "summary": "searches all products",
         "description": "You can search for all products in the shop",
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "productId",
@@ -108,13 +96,7 @@
   "definitions": {
     "Product": {
       "type": "object",
-      "required": [
-        "count",
-        "description",
-        "id",
-        "price",
-        "title"
-      ],
+      "required": ["count", "description", "id", "price", "title"],
       "properties": {
         "id": {
           "type": "string",
@@ -144,13 +126,7 @@
     },
     "CreateProductSchema": {
       "type": "object",
-      "required": [
-        "count",
-        "description",
-        "price",
-        "title",
-        "logo"
-      ],
+      "required": ["count", "description", "price", "title", "logo"],
       "properties": {
         "title": {
           "type": "string",

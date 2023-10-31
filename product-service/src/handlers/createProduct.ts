@@ -8,7 +8,7 @@ export const createProductHandler = (productService: ProductServiceInterface) =>
     const id = uuidv4();
     winstonLogger.logRequest(`Incoming event: ${JSON.stringify(event)}`);
 
-    const body = typeof event.body === "string" ? JSON.parse(event.body) : event.body;
+    const body = typeof event.body === 'string' ? JSON.parse(event.body) : event.body;
 
     const createProductBody = {
       id,
